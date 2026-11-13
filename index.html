@@ -80,7 +80,7 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        const GROQ_API_KEY = 'YOUR_GROQ_API_KEY';
+        const GROQ_API_KEY = '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';
 
         async function askGroqAI() {
             const promptText = document.getElementById('ai-prompt').value;
@@ -95,17 +95,17 @@
             responseDiv.textContent = "Analyzing hardware query via Groq API...";
 
             try {
-                const res = href = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+             const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: "POST",
                     headers: {
                         "Authorization": `Bearer ${GROQ_API_KEY}`,
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        model: "llama-3.3-70b-versatile",
+                      model: "llama-3.3-70b-versatile",
                         messages: [
                             { role: "system", content: "You are an expert technical assistant for a cybersecurity memory performance report." },
-                            { role: "user", content: promptText }
+                            { role: "user", content: `${promptText}` }
                         ]
                     })
                 });
