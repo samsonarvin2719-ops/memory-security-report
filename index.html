@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Memory & Performance Comparison Report</title>
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER -->
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
+        <div>
+            <h1 class="text-xl font-bold text-sky-400">Memory & Performance Comparison Report</h1>
+            <p class="text-xs text-slate-400">Cyber Security Micro-Project</p>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+        
+        <!-- REPORT INTRODUCTION -->
+        <section class="mb-12 bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
+            <h2 class="text-2xl font-semibold text-sky-400 mb-4">Executive Summary</h2>
+            <p class="text-slate-300 leading-relaxed">
+                This project analyzes the deep intersection between computer memory performance hierarchies (Registers, L1-L3 Caches, DRAM, and Secondary Storage) and critical hardware-level cybersecurity vulnerabilities. As processing speeds increase, physical proximity and shared hardware structures introduce severe security risks.
+            </p>
+        </section>
+
+        <!-- COMPARISON MATRIX TABLE -->
+        <section class="mb-12 bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl overflow-x-auto">
+            <h2 class="text-2xl font-semibold text-sky-400 mb-4">Memory Tier & Security Matrix</h2>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-slate-800 text-sky-300">
+                        <th class="p-3">Memory Tier</th>
+                        <th class="p-3">Speed / Latency</th>
+                        <th class="p-3">Primary Vulnerability</th>
+                    </tr>
+                </thead>
+                <tbody class="text-slate-300 text-sm">
+                    <tr class="border-b border-slate-800/50">
+                        <td class="p-3 font-medium">CPU Cache (L1-L3)</td>
+                        <td class="p-3">< 10 ns (Volatile)</td>
+                        <td class="p-3 text-rose-400">Cache Timing Side-Channels (Spectre / Meltdown)</td>
+                    </tr>
+                    <tr class="border-b border-slate-800/50">
+                        <td class="p-3 font-medium">Main Memory (DRAM)</td>
+                        <td class="p-3">50 - 100 ns (Volatile)</td>
+                        <td class="p-3 text-rose-400">Rowhammer Bit-Flips & Cold Boot Scraping</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-medium">Secondary Storage (SSD)</td>
+                        <td class="p-3">Microseconds (Non-Volatile)</td>
+                        <td class="p-3 text-rose-400">Data Remnants & Unencrypted At-Rest Recovery</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- GROQ AI ASSISTANT WIDGET -->
+        <section class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
+            <h2 class="text-2xl font-semibold text-sky-400 mb-2">Ask the Report AI (Powered by Groq)</h2>
+            <p class="text-xs text-slate-400 mb-4">Have questions about Rowhammer or Cache architectures? Query our model live.</p>
+            
+            <div class="space-y-4">
+                <textarea id="ai-prompt" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 focus:outline-none focus:border-sky-500" placeholder="Ask a question about memory security..."></textarea>
+                <button onclick="askGroqAI()" class="bg-sky-600 hover:bg-sky-500 text-white font-medium px-5 py-2 rounded-lg text-sm transition">Generate AI Response</button>
+                <div id="ai-response" class="hidden bg-slate-950 border border-slate-800 rounded-lg p-4 text-sm text-slate-300 mt-4 whitespace-pre-wrap"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-6 border-t border-slate-800 text-xs text-slate-500">
+        Cyber Security Micro-Project • Built with HTML, Tailwind, & Groq
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const GROQ_API_KEY = 'YOUR_GROQ_API_KEY';
+
+        async function askGroqAI() {
+            const promptText = document.getElementById('ai-prompt').value;
+            const responseDiv = document.getElementById('ai-response');
+            
+            if (!promptText) {
+                alert("Please enter a question first.");
+                return;
+            }
+
+            responseDiv.classList.remove('hidden');
+            responseDiv.textContent = "Analyzing hardware query via Groq API...";
+
+            try {
+                const res = href = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${GROQ_API_KEY}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model: "llama-3.3-70b-versatile",
+                        messages: [
+                            { role: "system", content: "You are an expert technical assistant for a cybersecurity memory performance report." },
+                            { role: "user", content: promptText }
+                        ]
+                    })
+                });
+
+                const json = await res.json();
+                if (json.choices && json.choices.length > 0) {
+                    responseDiv.textContent = json.choices[0].message.content;
+                } else {
+                    responseDiv.textContent = "Error fetching response: " + JSON.stringify(json);
+                }
+            } catch (err) {
+                responseDiv.textContent = "Request failed: " + err.message;
+            }
+        }
+    </script>
+</body>
+</html>
